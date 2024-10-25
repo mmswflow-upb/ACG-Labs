@@ -1,0 +1,14 @@
+#version 330 core
+
+uniform vec4 bonusColor;
+
+// Output data
+out vec4 bonusFragCol;
+
+
+void main()
+{
+	// Output color from main
+	bonusFragCol = bonusColor;
+	
+}
