@@ -16,6 +16,9 @@
 
 #include "shader.hpp"
 
+#include "Camera/camera.h"
+using namespace std;
+
 //variables
 GLFWwindow* window;
 const int width = 1024, height = 768;
@@ -29,12 +32,76 @@ float deltaTime = 0.0f;	// Time between current frame and last frame
 float lastFrame = 0.0f; // Time of last frame
 
 //Add the camera parameters here and create a camera object
+glm::vec3 cameraPos(0.0f, 0.0f, 2.5f);
+glm::vec3 cameraViewDirection(0.0f, 0.0f, -1.0f);
+glm::vec3 cameraUpVector(0.0f, 1.0f, 0.0f);
+
+Camera camera(cameraPos, cameraViewDirection, cameraUpVector);
 
 void window_callback(GLFWwindow* window, int new_width, int new_height)
 {
 	glViewport(0, 0, new_width, new_height);
 }
 
+
+void processInput(GLFWwindow* window)
+{
+	//Delta time is updated in the main loop
+	float cameraSpeed = 10.0f * deltaTime;
+	GLuint w_key = glfwGetKey(window, GLFW_KEY_W);
+	GLuint s_key = glfwGetKey(window, GLFW_KEY_S);
+
+	GLuint space_key = glfwGetKey(window, GLFW_KEY_SPACE);
+	GLuint shift_key = glfwGetKey(window, GLFW_KEY_LEFT_SHIFT);
+
+	GLuint d_key = glfwGetKey(window, GLFW_KEY_D);
+	GLuint a_key = glfwGetKey(window, GLFW_KEY_A);
+	
+	GLuint e_key = glfwGetKey(window, GLFW_KEY_E);
+	GLuint f_key = glfwGetKey(window, GLFW_KEY_F);
+
+
+	//Check key presses for moving forward or backward
+	if (w_key == GLFW_PRESS && s_key != GLFW_PRESS) {
+		camera.translateFront(cameraSpeed);
+	}
+	else if (s_key == GLFW_PRESS && w_key != GLFW_PRESS) {
+		camera.translateBack(cameraSpeed);
+	}
+
+	//Check key presses for moving up or down
+	if (space_key == GLFW_PRESS && shift_key != GLFW_PRESS) {
+
+		camera.translateUp(cameraSpeed);
+	}
+	else if (shift_key == GLFW_PRESS && space_key != GLFW_PRESS) {
+		camera.translateDown(cameraSpeed);
+	}
+
+	//Check key for rotating right and left
+	if (d_key == GLFW_PRESS && a_key != GLFW_PRESS) {
+
+		//Counter clock-wise:
+		camera.rotateOy(-cameraSpeed);
+	}
+	else if (a_key == GLFW_PRESS && d_key != GLFW_PRESS) {
+		
+		//Counter clock-wise:
+
+		camera.rotateOy(cameraSpeed);
+	}
+
+	//Check key for rotating up or down (around x axis)
+	if (e_key == GLFW_PRESS && f_key != GLFW_PRESS) {
+
+		camera.rotateOx(cameraSpeed);
+	}
+	else if (f_key == GLFW_PRESS && e_key != GLFW_PRESS) {
+		camera.rotateOx(-cameraSpeed);
+
+	}
+
+}
 
 int main(void)
 {
@@ -107,14 +174,14 @@ int main(void)
 	glm::vec3 positions[] = {
 		glm::vec3(0.0f,  0.0f,  0.2f),
 		glm::vec3(0.2f,  0.5f, 0.1f),
-		glm::vec3(-0.15f, -0.22f, 0),
+		glm::vec3(-0.15f, -0.22f, -0.54),
 		glm::vec3(-0.38f, -0.2f, -0.7),
-		glm::vec3(0.24f, -0.4f, 0.1),
+		glm::vec3(0.24f, -0.4f, 0.34),
 		glm::vec3(-0.17f,  0.3f, 0.7),
-		glm::vec3(0.23f, -0.2f, 0.1),
+		glm::vec3(0.23f, -0.2f, -0.1),
 		glm::vec3(0.15f,  0.2f, 0),
 		glm::vec3(0.7f,  0.7f, 0.9),
-		glm::vec3(-0.13f,  0.9f, 0)
+		glm::vec3(-0.13f,  0.9f, -0.98)
 	};
 
 	//vertices and indices for a light source (pyramid)
@@ -202,10 +269,11 @@ int main(void)
 
 	//Change accordingly for camera
 	glm::mat4 view;
-	view = glm::lookAt(glm::vec3(0.0f, 30.0f, 100.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	view = glm::lookAt(camera.getCameraPosition(), camera.getCameraPosition() + camera.getCameraViewDirection() , camera.getCameraUp());
+
 
 	glm::mat4 projection;
-	projection = glm::perspective(glm::radians(45.0f), (float)width / (float)height, 0.1f, 10000.0f);
+	projection = glm::perspective(80.0f, (float)width / (float)height, 0.1f, 10000.0f);
 
 	// Check if the window was closed
 	while (!glfwWindowShouldClose(window))
@@ -214,6 +282,8 @@ int main(void)
 		float currentFrame = glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame; 
+
+		processInput(window);
 
 		// Swap buffers
 		glfwSwapBuffers(window);
@@ -227,6 +297,14 @@ int main(void)
 		// Use our shader
 		glUseProgram(programID);
 
+		//// Ex 2
+		//const float radius = 200.0f;
+		//float camX = sin(glfwGetTime()) * radius;
+		//float camZ = cos(glfwGetTime()) * radius;
+
+		//camera.setCameraPosition(glm::vec3(camX, 30.0f, camZ));
+
+		view = glm::lookAt(camera.getCameraPosition(), camera.getCameraPosition() + camera.getCameraViewDirection(), camera.getCameraUp());
 
 		for (int i = 0; i < 10; i++)
 		{
