@@ -38,6 +38,7 @@ glm::vec3 cameraUpVector(0.0f, 1.0f, 0.0f);
 
 Camera camera(cameraPos, cameraViewDirection, cameraUpVector);
 
+
 void window_callback(GLFWwindow* window, int new_width, int new_height)
 {
 	glViewport(0, 0, new_width, new_height);
@@ -56,7 +57,7 @@ void processInput(GLFWwindow* window)
 
 	GLuint d_key = glfwGetKey(window, GLFW_KEY_D);
 	GLuint a_key = glfwGetKey(window, GLFW_KEY_A);
-	
+
 	GLuint e_key = glfwGetKey(window, GLFW_KEY_E);
 	GLuint f_key = glfwGetKey(window, GLFW_KEY_F);
 
@@ -82,22 +83,22 @@ void processInput(GLFWwindow* window)
 	if (d_key == GLFW_PRESS && a_key != GLFW_PRESS) {
 
 		//Counter clock-wise:
-		camera.rotateOy(-cameraSpeed);
+		camera.rotateOy(-cameraSpeed * 4);
 	}
 	else if (a_key == GLFW_PRESS && d_key != GLFW_PRESS) {
-		
+
 		//Counter clock-wise:
 
-		camera.rotateOy(cameraSpeed);
+		camera.rotateOy(cameraSpeed * 4);
 	}
 
 	//Check key for rotating up or down (around x axis)
 	if (e_key == GLFW_PRESS && f_key != GLFW_PRESS) {
 
-		camera.rotateOx(cameraSpeed);
+		camera.rotateOx(cameraSpeed * 4);
 	}
 	else if (f_key == GLFW_PRESS && e_key != GLFW_PRESS) {
-		camera.rotateOx(-cameraSpeed);
+		camera.rotateOx(-cameraSpeed * 4);
 
 	}
 
@@ -273,7 +274,7 @@ int main(void)
 
 
 	glm::mat4 projection;
-	projection = glm::perspective(80.0f, (float)width / (float)height, 0.1f, 10000.0f);
+	projection = glm::perspective(90.0f, (float)width / (float)height, 0.1f, 10000.0f);
 
 	// Check if the window was closed
 	while (!glfwWindowShouldClose(window))
@@ -302,9 +303,9 @@ int main(void)
 		//float camX = sin(glfwGetTime()) * radius;
 		//float camZ = cos(glfwGetTime()) * radius;
 
-		//camera.setCameraPosition(glm::vec3(camX, 30.0f, camZ));
+		//camera.setCameraPosition(glm::vec3(camX, 0.0f, camZ));
 
-		view = glm::lookAt(camera.getCameraPosition(), camera.getCameraPosition() + camera.getCameraViewDirection(), camera.getCameraUp());
+		view = glm::lookAt(camera.getCameraPosition(),  camera.getCameraViewDirection() + camera.getCameraPosition(), camera.getCameraUp());
 
 		for (int i = 0; i < 10; i++)
 		{

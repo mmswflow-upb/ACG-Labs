@@ -32,14 +32,14 @@ Camera::~Camera()
 
 void Camera::rotateOx(float angle)
 {
-	//Around right direction
+	//Around right directionv
 	glm::mat4 rot = glm::rotate(glm::mat4(1.0f), angle, cameraRight);
 	glm::vec4 viewDirection4(cameraViewDirection, 1.0f);
 
 	viewDirection4 = rot * viewDirection4;
 
-	cameraViewDirection = glm::normalize(glm::vec3(viewDirection4.x, viewDirection4.y, viewDirection4.z));
-	cameraRight = glm::cross(cameraViewDirection, cameraUp);
+	cameraViewDirection = glm::normalize(glm::vec3(viewDirection4));
+	cameraRight = glm::normalize(glm::cross(cameraViewDirection, cameraUp));
 }
 
 void Camera::rotateOy (float angle)
@@ -51,7 +51,7 @@ void Camera::rotateOy (float angle)
 	viewDirection4 = rot * viewDirection4;
 
 	cameraViewDirection = glm::normalize(glm::vec3(viewDirection4.x, viewDirection4.y, viewDirection4.z));
-	cameraUp = glm::cross(cameraRight, cameraViewDirection);
+	cameraUp = glm::normalize(glm::cross(cameraRight, cameraViewDirection));
 }
 
 void Camera::translateUp(float speed)
