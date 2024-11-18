@@ -76,7 +76,7 @@ void middle_mouse_button_callback(GLFWwindow* window, int button, int action, in
 	if (button == GLFW_MOUSE_BUTTON_MIDDLE && action == GLFW_PRESS) {
 
 		double xpos, ypos;
-
+		 
 		glfwGetCursorPos(window, &xpos, &ypos);
 
 		AppData* app_data = static_cast<AppData*>(glfwGetWindowUserPointer(window));
