@@ -1,0 +1,38 @@
+const float a = 1.0;         // Base radius
+const float b = 0.1759;      // Growth factor
+const float PI = 3.14159265359;
+
+// Spiral Signed Distance Function (SDF)
+float spiralSDF(vec2 p, vec2 c) {
+    // Shift the point relative to the center
+    p -= c;
+
+    // Compute the angle (theta) and radius
+    float t = atan(p.y, p.x) + iTime * 8.0; // Time-based rotation
+    float r = length(p); //distance from center of spiral
+
+    float n = ((r / a) / b - t) / (2.0 * PI);
+
+    // Compute the upper and lower radii for the current turn
+    float upper_r = a * exp(b * (t + 2.0 * PI * ceil(n)));
+    float lower_r = a * exp(b * (t + 2.0 * PI * floor(n)));
+
+    // Return the minimum distance to the spiral
+    return min(abs(upper_r - r), abs(r - lower_r));
+}
+
+void mainImage(out vec4 O, vec2 I) {
+    vec2 R = iResolution.xy;
+    vec2 uv = (2.0 * I - R) / R.y; // Normalize to [-1, 1] and maintain aspect ratio
+    vec2 c = vec2(0.0, 0.0);       // Spiral center
+
+    // Calculate the signed distance to the spiral
+    float d = spiralSDF(uv, c);
+
+    // Adjust the visual intensity and thickness
+    float v = exp(-d * 3.0); // Controls thickness and intensity falloff (tolerance)
+
+    // Output the color
+    O.rgb = vec3(0.0, 0.0, v); // Blue spiral
+    O.a = 1.0;                 // Full opacity
+}
