@@ -118,7 +118,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera\camera.cpp" />
-    <ClCompile Include="Crosshairs\Crosshair.cpp" />
+    <ClCompile Include="Crosshair\Crosshair.cpp" />
     <ClCompile Include="Graphics\window.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Model Loading\meshLoaderObj.cpp" />
@@ -128,7 +128,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera\camera.h" />
-    <ClInclude Include="Crosshairs\Crosshair.h" />
+    <ClInclude Include="Crosshair\Crosshair.h" />
     <ClInclude Include="Graphics\window.h" />
     <ClInclude Include="Model Loading\meshLoaderObj.h" />
     <ClInclude Include="Model Loading\mesh.h" />

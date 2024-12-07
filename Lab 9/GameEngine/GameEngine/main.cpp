@@ -18,7 +18,7 @@ glm::vec3 lightPos = glm::vec3(-180.0f, 100.0f, -200.0f);
 
 int main()
 {
-	glClearColor(0.2f, 0.8f, 1.0f, 1.0f);
+	glClearColor(0.2f, 0.8f, .0f, 1.0f);
 
 	//building and compiling shader program
 	Shader shader("Shaders/vertex_shader.glsl", "Shaders/fragment_shader.glsl");
@@ -154,6 +154,10 @@ int main()
 
 		normal_shader.use();
 
+		glUniform3f(glGetUniformLocation(normal_shader.getId(), "lightColor"), lightColor.x, lightColor.y, lightColor.z);
+		glUniform3f(glGetUniformLocation(normal_shader.getId(), "lightPos"), lightPos.x, lightPos.y, lightPos.z);
+		glUniform3f(glGetUniformLocation(normal_shader.getId(), "viewPos"), camera.getCameraPosition().x, camera.getCameraPosition().y, camera.getCameraPosition().z);
+
 		std::vector<glm::vec3> hockey_stickPositions = {
 			glm::vec3(0.0f, 20.0f, 0.0f),
 			glm::vec3(0.0f, 20.0f, 30.0f),
@@ -186,9 +190,9 @@ void processKeyboardInput()
 		camera.keyboardMoveLeft(cameraSpeed);
 	if (window.isPressed(GLFW_KEY_D))
 		camera.keyboardMoveRight(cameraSpeed);
-	if (window.isPressed(GLFW_KEY_R))
+	if (window.isPressed(GLFW_KEY_SPACE))
 		camera.keyboardMoveUp(cameraSpeed);
-	if (window.isPressed(GLFW_KEY_F))
+	if (window.isPressed(GLFW_KEY_LEFT_SHIFT))
 		camera.keyboardMoveDown(cameraSpeed);
 
 	double mouseX, mouseY;

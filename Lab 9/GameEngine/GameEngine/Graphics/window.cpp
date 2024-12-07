@@ -46,7 +46,6 @@ void Window::init()
 	glfwMakeContextCurrent(window);
 
 	//callbacks for user input
-	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetWindowUserPointer(window, this);
 	glfwSetKeyCallback(window, key_callback);
 	glfwSetMouseButtonCallback(window, mouse_button_callback);

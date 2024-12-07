@@ -55,14 +55,12 @@ void Camera::keyboardMoveRight(float cameraSpeed)
 
 void Camera::keyboardMoveUp(float cameraSpeed)
 {
-	cameraUp = glm::normalize(glm::cross(cameraRight, cameraViewDirection));
 
 	cameraPosition += cameraUp * cameraSpeed ;
 }
 
 void Camera::keyboardMoveDown(float cameraSpeed)
 {
-	cameraUp = glm::normalize(glm::cross(cameraRight, cameraViewDirection));
 
 	cameraPosition -= cameraUp * cameraSpeed ;
 }
