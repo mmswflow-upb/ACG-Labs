@@ -288,6 +288,8 @@ int main(void)
 
 			if (i == 9) {
 
+
+
 				glUniform1f(blendFactor, 0.5f);
 				// Activate texture unit 0 and bind the first texture
 				glActiveTexture(GL_TEXTURE0);
@@ -306,6 +308,7 @@ int main(void)
 				glUniform1f(blendFactor, 0.0f);
 				glActiveTexture(GL_TEXTURE0);
 
+				glBindTexture(GL_TEXTURE_2D, texture1);
 
 				if (i % 2 == 0) {
 					glBindTexture(GL_TEXTURE_2D, texture1);
@@ -383,17 +386,17 @@ void processKeyboardInput()
 		camera.keyboardMoveDown(cameraSpeed);
 	}
 	if (glfwGetKey(window, GLFW_KEY_UP)) {
-		camera.rotateOx(cameraSpeed * 50.0f);
+		camera.rotateOx(cameraSpeed * 100.0f);
 	}
 	if (glfwGetKey(window, GLFW_KEY_DOWN)) {
-		camera.rotateOx(cameraSpeed * -50.0f);
+		camera.rotateOx(cameraSpeed * -100.0f);
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_RIGHT)) {
-		camera.rotateOy(cameraSpeed * -50.0f);
+		camera.rotateOy(cameraSpeed * -100.0f);
 	}
 	if (glfwGetKey(window, GLFW_KEY_LEFT)) {
-		camera.rotateOy(cameraSpeed * 50.0f);
+		camera.rotateOy(cameraSpeed * 100.0f);
 	}
 }
 
