@@ -30,6 +30,7 @@ int main()
 	GLuint tex = loadBMP("Resources/Textures/wood.bmp");
 	GLuint tex2 = loadBMP("Resources/Textures/rock.bmp");
 	GLuint tex3 = loadBMP("Resources/Textures/orange.bmp");
+	GLuint tex4 = loadBMP("Resources/Models/ice_dyno.bmp");
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -74,6 +75,10 @@ int main()
 	textures3[0].id = tex3;
 	textures3[0].type = "texture_diffuse";
 
+	std::vector<Texture> textures_dino;
+	textures_dino.push_back(Texture());
+	textures_dino[0].id = tex4;
+	textures_dino[0].type = "texture_diffuse";
 
 	Mesh mesh(vert, ind, textures3);
 
@@ -83,7 +88,7 @@ int main()
 	Mesh sun = loader.loadObj("Resources/Models/sphere.obj");
 	Mesh box = loader.loadObj("Resources/Models/cube.obj", textures);
 	Mesh plane = loader.loadObj("Resources/Models/plane1.obj", textures2);
-	Mesh myCube = loader.loadObj("Resources/Models/myCube.obj");
+	Mesh myDyno = loader.loadObj("Resources/Models/ice_dyno.obj", textures_dino);
 
 
 	//check if we close the window or press the escape button
@@ -170,7 +175,7 @@ int main()
 			MVP = ProjectionMatrix * ViewMatrix * ModelMatrix;
 			glUniformMatrix4fv(MatrixID2, 1, GL_FALSE, &MVP[0][0]);
 			glUniformMatrix4fv(ModelMatrixID, 1, GL_FALSE, &ModelMatrix[0][0]);
-			myCube.draw(normal_shader);
+			myDyno.draw(normal_shader);
 		}
 
 		window.update();
